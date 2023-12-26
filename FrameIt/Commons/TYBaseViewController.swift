@@ -1,0 +1,73 @@
+//
+//  TYBaseController.swift
+//  TYPictureMaker
+//
+//  Created by Sheldon Tian on 2023/5/24.
+//
+
+import UIKit
+
+class TYBaseViewController : UIViewController {
+    
+    private lazy var backButton : UIBarButtonItem = {
+        // 设置导航栏返回图标
+        let item = UIBarButtonItem(image: UIImage(systemName: "chevron.backward.circle"), style: .plain, target: self, action: #selector(back))
+        item.tintColor = .white
+        self.navigationItem.leftBarButtonItem = item
+        return item
+    }()
+    
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        
+        // 当前控制器有导航栈，且是栈中的第一个控制器，就不显示返回按钮
+        if !(navigationController?.viewControllers.first is Self) {
+            showBackButton()
+        } else {
+            hiddenBackButton()
+        }
+        
+        addSubviews()
+        setupSubviews()
+        
+        
+        
+    }
+    
+    // 添加子控件
+    func addSubviews() {
+        
+    }
+    
+    // 布局子控件
+    func setupSubviews() {
+        
+    }
+    
+    func showBackButton() {
+        if #available(iOS 16.0, *) {
+            backButton.isHidden = false
+        } else {
+            // Fallback on earlier versions
+            navigationItem.leftBarButtonItem = backButton
+        }
+    }
+    
+    func hiddenBackButton() {
+        if #available(iOS 16.0, *) {
+            backButton.isHidden = true
+        } else {
+            // Fallback on earlier versions
+            navigationItem.leftBarButtonItem = nil
+        }
+    }
+    
+    @objc func back() {
+        self.navigationController?.popViewController(animated: true)
+    }
+}
