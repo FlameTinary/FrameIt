@@ -23,9 +23,9 @@ class CardController: TYBaseViewController {
         let view = PhoneCard()
 //        view.layer.cornerRadius = 10.0
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOpacity = 0.3
         view.layer.shadowOffset = CGSize(width: 10, height: 10)
-        view.layer.shadowRadius = 4
+        view.layer.shadowRadius = 8
         view.layer.masksToBounds = false
         return view
     }()
