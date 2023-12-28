@@ -20,7 +20,7 @@ class CardController: TYBaseViewController {
     
     // card
     private lazy var cardView: PhoneCard = {
-        let view = PhoneCard()
+        let view = PhoneCard(cardColor: .white)
 //        view.layer.cornerRadius = 10.0
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.3
