@@ -21,8 +21,10 @@ class PhoneCard: TYBaseView {
     // 时间
     private lazy var leftLbl: UILabel = {
         let lbl = UILabel()
-        lbl.text = "中国联通"
+        lbl.text = "13:14"
         lbl.adjustsFontSizeToFitWidth = true
+        lbl.minimumScaleFactor = 0.1
+        lbl.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
         lbl.textColor = cardColor == .white ? .white : .black
         return lbl
     }()
@@ -30,7 +32,6 @@ class PhoneCard: TYBaseView {
     private lazy var island: UIView = {
         let view = UIView()
         view.backgroundColor = .black
-        view.layer.cornerRadius = 8.0
         view.layer.masksToBounds = true
         return view
     }()
@@ -39,6 +40,7 @@ class PhoneCard: TYBaseView {
         var imageName = "cellular"
         imageName = cardColor == .white ? imageName.appending("_white") : imageName.appending("_black")
         let view = UIImageView(image: UIImage(named: imageName))
+        view.contentMode = .scaleAspectFit
         return view
     }()
     // wifi
@@ -46,6 +48,7 @@ class PhoneCard: TYBaseView {
         var imageName = "wifi"
         imageName = cardColor == .white ? imageName.appending("_white") : imageName.appending("_black")
         let view = UIImageView(image: UIImage(named: imageName))
+        view.contentMode = .scaleAspectFit
         return view
     }()
     // 电池
@@ -53,6 +56,7 @@ class PhoneCard: TYBaseView {
         var imageName = "battery"
         imageName = cardColor == .white ? imageName.appending("_white") : imageName.appending("_black")
         let view = UIImageView(image: UIImage(named: imageName))
+        view.contentMode = .scaleAspectFit
         return view
     }()
     // 背景图片
@@ -60,7 +64,6 @@ class PhoneCard: TYBaseView {
         let imageView = UIImageView(image: UIImage(named: "wallpaper_1"))
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = 20.0
         return imageView
     }()
     // 底部横条
@@ -71,8 +74,21 @@ class PhoneCard: TYBaseView {
         return view
     }()
     // 左边底部手电筒
+    private lazy var flashlightView: UIImageView = {
+        var imageName = "flashlight"
+//        imageName = cardColor == .white ? imageName.appending("_white") : imageName.appending("_black")
+        let view = UIImageView(image: UIImage(named: imageName))
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
     // 右边底部相机
-    
+    private lazy var cameraView: UIImageView = {
+        var imageName = "camera"
+//        imageName = cardColor == .white ? imageName.appending("_white") : imageName.appending("_black")
+        let view = UIImageView(image: UIImage(named: imageName))
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
     
     init(cardColor: CardColor = .white) {
         self.cardColor = cardColor
@@ -91,34 +107,43 @@ class PhoneCard: TYBaseView {
         addSubview(wifiImageView)
         addSubview(batteryImageView)
         addSubview(indicatorView)
+        addSubview(flashlightView)
+        addSubview(cameraView)
         bgImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         island.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.3)
-            make.height.equalTo(16)
+            make.width.equalToSuperview().multipliedBy(0.26)
+            make.height.equalTo(island.snp.width).multipliedBy(0.3)
         }
         leftLbl.snp.makeConstraints { make in
             make.centerY.equalTo(island)
-            make.left.equalToSuperview().offset(20)
-            make.right.equalTo(island.snp.left).offset(-10)
+//            make.left.equalToSuperview().offset(15)
+            make.left.greaterThanOrEqualToSuperview().offset(10)
+            make.right.equalTo(island.snp.left).offset(-15)
         }
         cellularView.snp.makeConstraints { make in
             make.centerY.equalTo(island)
             make.left.equalTo(island.snp.right).offset(10)
-            make.size.equalTo(CGSize(width: 10, height: 6.5))
+            make.size.greaterThanOrEqualTo(CGSize(width: 1, height: 1))
         }
         wifiImageView.snp.makeConstraints { make in
             make.centerY.equalTo(island)
             make.left.equalTo(cellularView.snp.right).offset(4)
-            make.size.equalTo(CGSize(width: 10, height: 7.2))
+//            make.size.equalTo(CGSize(width: 10, height: 7.2))
+//            make.size.greaterThanOrEqualTo(CGSize(width: 5, height: 5))
+            make.size.equalTo(cellularView)
         }
         batteryImageView.snp.makeConstraints { make in
             make.centerY.equalTo(island)
             make.left.equalTo(wifiImageView.snp.right).offset(4)
-            make.size.equalTo(CGSize(width: 10, height: 4.64))
+            make.right.equalToSuperview().offset(-20)
+//            make.size.equalTo(CGSize(width: batteryW, height: batteryH))
+//            make.size.equalTo(CGSize(width: 15, height: 15))
+//            make.size.greaterThanOrEqualTo(CGSize(width: 5, height: 5))
+            make.size.equalTo(cellularView).offset(4)
         }
         indicatorView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -126,6 +151,27 @@ class PhoneCard: TYBaseView {
             make.width.equalToSuperview().multipliedBy(0.4)
             make.height.equalTo(2)
         }
+        flashlightView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().offset(-20)
+            make.left.equalToSuperview().offset(20)
+            make.size.equalTo(CGSize(width: 20, height: 20))
+        }
+        cameraView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().offset(-20)
+            make.right.equalToSuperview().offset(-20)
+            make.size.equalTo(CGSize(width: 20, height: 20))
+        }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        island.layer.cornerRadius = island.height / 2.0
+        bgImageView.layer.cornerRadius = width / 4.0 / 2.0
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.8
+        layer.shadowOffset = CGSize(width: 8, height: 8)
+        layer.shadowRadius = width / 4.0 / 2.0
+        layer.masksToBounds = false
+
+    }
 }

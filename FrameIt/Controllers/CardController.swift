@@ -22,11 +22,6 @@ class CardController: TYBaseViewController {
     private lazy var cardView: PhoneCard = {
         let view = PhoneCard(cardColor: .white)
 //        view.layer.cornerRadius = 10.0
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.3
-        view.layer.shadowOffset = CGSize(width: 10, height: 10)
-        view.layer.shadowRadius = 8
-        view.layer.masksToBounds = false
         return view
     }()
     
@@ -45,8 +40,8 @@ class CardController: TYBaseViewController {
             make.center.equalToSuperview()
 //            make.height.equalTo(wallpapterImageView.snp.height)
 //            make.width.equalTo(cardView.snp.height).multipliedBy(393 / 852)
-            make.width.equalTo(wallpapterImageView.snp.height).multipliedBy(0.46)
-            make.height.equalTo(wallpapterImageView.snp.height).offset(-20)
+            make.width.equalTo(wallpapterImageView.snp.height).multipliedBy(0.42)
+            make.height.equalTo(cardView.snp.width).multipliedBy(2.17)
         }
     }
 }

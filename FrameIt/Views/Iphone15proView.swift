@@ -13,7 +13,7 @@ class Iphone15proView: TYBaseView {
     private let viewW = 393
     private let viewH = 852
     // 壳图片
-    private var borderImage = UIImage(named: "iPhone_15_Pro_Black_Titanium")
+    private var borderImage = UIImage(named: "iPhone_15_pro_Titanium_black")
     private lazy var borderImageView: UIImageView = {
         let imageView = UIImageView(image: borderImage)
         return imageView

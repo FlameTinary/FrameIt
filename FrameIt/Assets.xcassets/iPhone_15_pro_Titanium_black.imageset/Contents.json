@@ -1,16 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "iPhone_15_pro_Titanium_black@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "iPhone_15_Pro_Black Titanium@2x.png",
+      "filename" : "iPhone_15_pro_Titanium_black@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "iPhone_15_Pro_Black Titanium@3x.png",
+      "filename" : "iPhone_15_pro_Titanium_black@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
