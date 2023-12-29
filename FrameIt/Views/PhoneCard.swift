@@ -24,7 +24,7 @@ class PhoneCard: TYBaseView {
         lbl.text = "13:14"
         lbl.adjustsFontSizeToFitWidth = true
         lbl.minimumScaleFactor = 0.1
-        lbl.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
+        lbl.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         lbl.textColor = cardColor == .white ? .white : .black
         return lbl
     }()
@@ -120,8 +120,7 @@ class PhoneCard: TYBaseView {
         }
         leftLbl.snp.makeConstraints { make in
             make.centerY.equalTo(island)
-//            make.left.equalToSuperview().offset(15)
-            make.left.greaterThanOrEqualToSuperview().offset(10)
+            make.left.equalToSuperview().offset(20)
             make.right.equalTo(island.snp.left).offset(-15)
         }
         cellularView.snp.makeConstraints { make in
@@ -132,17 +131,12 @@ class PhoneCard: TYBaseView {
         wifiImageView.snp.makeConstraints { make in
             make.centerY.equalTo(island)
             make.left.equalTo(cellularView.snp.right).offset(4)
-//            make.size.equalTo(CGSize(width: 10, height: 7.2))
-//            make.size.greaterThanOrEqualTo(CGSize(width: 5, height: 5))
             make.size.equalTo(cellularView)
         }
         batteryImageView.snp.makeConstraints { make in
             make.centerY.equalTo(island)
             make.left.equalTo(wifiImageView.snp.right).offset(4)
             make.right.equalToSuperview().offset(-20)
-//            make.size.equalTo(CGSize(width: batteryW, height: batteryH))
-//            make.size.equalTo(CGSize(width: 15, height: 15))
-//            make.size.greaterThanOrEqualTo(CGSize(width: 5, height: 5))
             make.size.equalTo(cellularView).offset(4)
         }
         indicatorView.snp.makeConstraints { make in
@@ -173,5 +167,43 @@ class PhoneCard: TYBaseView {
         layer.shadowRadius = width / 4.0 / 2.0
         layer.masksToBounds = false
 
+        island.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(0.028 * height)
+            make.width.equalToSuperview().multipliedBy(0.26)
+            make.height.equalTo(island.snp.width).multipliedBy(0.3)
+        }
+        leftLbl.snp.updateConstraints { make in
+            make.left.equalToSuperview().offset(width * 0.121)
+            make.right.equalTo(island.snp.left).offset(-0.091 * width)
+        }
+        cellularView.snp.updateConstraints { make in
+            make.left.equalTo(island.snp.right).offset(0.061 * width)
+            make.size.greaterThanOrEqualTo(CGSize(width: 1, height: 1))
+        }
+        wifiImageView.snp.updateConstraints { make in
+            make.left.equalTo(cellularView.snp.right).offset(0.024 * width)
+            make.size.equalTo(cellularView)
+        }
+        batteryImageView.snp.updateConstraints { make in
+            make.left.equalTo(wifiImageView.snp.right).offset(0.024 * width)
+            make.right.equalToSuperview().offset(-0.121 * width)
+//            make.size.equalTo(cellularView).offset(0.024 * width)
+            make.size.equalTo(cellularView).offset(0.024 * width)
+        }
+        indicatorView.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(-0.014 * height)
+        }
+        flashlightView.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(-0.056 * height)
+            make.left.equalToSuperview().offset(0.121 * width)
+            make.size.equalTo(CGSize(width: 0.121 * width, height: 0.121 * width))
+        }
+        cameraView.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(-0.056 * height)
+            make.right.equalToSuperview().offset(-0.121 * width)
+            make.size.equalTo(CGSize(width: 0.121 * width, height: 0.121 * width))
+        }
+        layoutIfNeeded()
     }
+    
 }
