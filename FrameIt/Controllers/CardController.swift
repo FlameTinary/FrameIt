@@ -9,6 +9,10 @@ import UIKit
 import SnapKit
 
 class CardController: TYBaseViewController {
+    
+    // 视图比例
+    private let proportion : TYProportion = .nineToSixTeen
+    
     // 背景图片
     private lazy var wallpapterImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "wallpaper_112"))
@@ -33,8 +37,8 @@ class CardController: TYBaseViewController {
     override func setupSubviews() {
         wallpapterImageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(wallpapterImageView.snp.width)
+            make.width.equalToSuperview().offset(-40)
+            make.height.equalTo(wallpapterImageView.snp.width).multipliedBy(1/proportion.toRadio())
         }
         cardView.snp.makeConstraints { make in
             make.center.equalToSuperview()
