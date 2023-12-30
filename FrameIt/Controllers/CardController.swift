@@ -41,11 +41,16 @@ class CardController: TYBaseViewController {
             make.height.equalTo(wallpapterImageView.snp.width).multipliedBy(1/proportion.toRadio())
         }
         cardView.snp.makeConstraints { make in
+            
+            // 获取iPhone 15 pro 机型尺寸
+            let phoneSize = TYDevice.iPhone15Pro.size()
+            // 计算宽高比
+            let ratio = phoneSize.height / phoneSize.width
+            
             make.center.equalToSuperview()
-//            make.height.equalTo(wallpapterImageView.snp.height)
-//            make.width.equalTo(cardView.snp.height).multipliedBy(393 / 852)
             make.width.equalTo(wallpapterImageView.snp.height).multipliedBy(0.42)
-            make.height.equalTo(cardView.snp.width).multipliedBy(2.17)
+            make.height.equalTo(cardView.snp.width).multipliedBy(ratio)
+            
         }
     }
 }
