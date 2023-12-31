@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: scene as! UIWindowScene)
-        window?.rootViewController = CardController()
+        window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()
     }
 

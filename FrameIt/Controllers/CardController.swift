@@ -16,16 +16,16 @@ class CardController: TYBaseViewController {
     // 背景图片
     private lazy var wallpapterImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "wallpaper_112"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
-//        imageView.layer.cornerRadius = 50.0
         return imageView
     }()
     
     // card
     private lazy var cardView: PhoneCard = {
         let view = PhoneCard(cardColor: .white)
-//        view.layer.cornerRadius = 10.0
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -34,23 +34,25 @@ class CardController: TYBaseViewController {
         view.addSubview(cardView)
     }
     
-    override func setupSubviews() {
-        wallpapterImageView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.equalToSuperview().offset(-40)
-            make.height.equalTo(wallpapterImageView.snp.width).multipliedBy(1/proportion.toRadio())
-        }
-        cardView.snp.makeConstraints { make in
+    override func layoutConstraintWithSubViews() {
+        
+        // 获取iPhone 15 pro 机型尺寸
+        let phoneSize = TYDevice.iPhone15Pro.size()
+        // 计算宽高比
+        let ratio = phoneSize.height / phoneSize.width
+        
+        // 布局
+        NSLayoutConstraint.activate([
+            wallpapterImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            wallpapterImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            wallpapterImageView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -40),
+            wallpapterImageView.heightAnchor.constraint(equalTo: wallpapterImageView.widthAnchor, multiplier: 1 / proportion.toRadio()),
             
-            // 获取iPhone 15 pro 机型尺寸
-            let phoneSize = TYDevice.iPhone15Pro.size()
-            // 计算宽高比
-            let ratio = phoneSize.height / phoneSize.width
+            cardView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            cardView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            cardView.widthAnchor.constraint(equalTo: wallpapterImageView.heightAnchor, multiplier: 0.42),
+            cardView.heightAnchor.constraint(equalTo: cardView.widthAnchor, multiplier: ratio)
             
-            make.center.equalToSuperview()
-            make.width.equalTo(wallpapterImageView.snp.height).multipliedBy(0.42)
-            make.height.equalTo(cardView.snp.width).multipliedBy(ratio)
-            
-        }
+        ])
     }
 }

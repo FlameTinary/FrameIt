@@ -33,9 +33,7 @@ class TYBaseViewController : UIViewController {
         }
         
         addSubviews()
-        setupSubviews()
-        
-        
+        layoutConstraintWithSubViews()
         
     }
     
@@ -45,8 +43,7 @@ class TYBaseViewController : UIViewController {
     }
     
     // 布局子控件
-    func setupSubviews() {
-        
+    func layoutConstraintWithSubViews() {
     }
     
     func showBackButton() {
