@@ -17,10 +17,6 @@ class TYBaseViewController : UIViewController {
         return item
     }()
     
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -32,18 +28,6 @@ class TYBaseViewController : UIViewController {
             hiddenBackButton()
         }
         
-        addSubviews()
-        layoutConstraintWithSubViews()
-        
-    }
-    
-    // 添加子控件
-    func addSubviews() {
-        
-    }
-    
-    // 布局子控件
-    func layoutConstraintWithSubViews() {
     }
     
     func showBackButton() {

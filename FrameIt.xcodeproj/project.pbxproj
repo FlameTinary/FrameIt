@@ -24,6 +24,8 @@
 		085EC13D2B3E71E300853208 /* TYProportionEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085EC13C2B3E71E300853208 /* TYProportionEnum.swift */; };
 		085EC13F2B3E75E900853208 /* TYDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085EC13E2B3E75E900853208 /* TYDevice.swift */; };
 		085EC1432B4034B800853208 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085EC1422B4034B800853208 /* TabBarController.swift */; };
+		085EC1472B416AC600853208 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085EC1462B416AC600853208 /* EditView.swift */; };
+		085EC1492B4172BA00853208 /* ProportionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085EC1482B4172BA00853208 /* ProportionController.swift */; };
 		FB3D52FCFD055477189271C5 /* Pods_FrameIt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F49B039FAE4287687E660EB /* Pods_FrameIt.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,8 @@
 		085EC13C2B3E71E300853208 /* TYProportionEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TYProportionEnum.swift; sourceTree = "<group>"; };
 		085EC13E2B3E75E900853208 /* TYDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYDevice.swift; sourceTree = "<group>"; };
 		085EC1422B4034B800853208 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		085EC1462B416AC600853208 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		085EC1482B4172BA00853208 /* ProportionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProportionController.swift; sourceTree = "<group>"; };
 		2B6246320FB8EBC2DC28C63A /* Pods-FrameIt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FrameIt.debug.xcconfig"; path = "Target Support Files/Pods-FrameIt/Pods-FrameIt.debug.xcconfig"; sourceTree = "<group>"; };
 		3561F9B5106DF488F3DA10B1 /* Pods-FrameIt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FrameIt.release.xcconfig"; path = "Target Support Files/Pods-FrameIt/Pods-FrameIt.release.xcconfig"; sourceTree = "<group>"; };
 		7F49B039FAE4287687E660EB /* Pods_FrameIt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FrameIt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +124,7 @@
 				085EC1342B3936A500853208 /* Iphone15proView.swift */,
 				085EC1362B39767E00853208 /* iPhone13ProOutlineView.swift */,
 				085EC13A2B3B069F00853208 /* PhoneCard.swift */,
+				085EC1462B416AC600853208 /* EditView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -130,6 +135,7 @@
 				085EC1142B391C1700853208 /* ViewController.swift */,
 				085EC1382B3B04F100853208 /* CardController.swift */,
 				085EC1422B4034B800853208 /* TabBarController.swift */,
+				085EC1482B4172BA00853208 /* ProportionController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -291,11 +297,13 @@
 				085EC1152B391C1700853208 /* ViewController.swift in Sources */,
 				085EC13B2B3B069F00853208 /* PhoneCard.swift in Sources */,
 				085EC1112B391C1700853208 /* AppDelegate.swift in Sources */,
+				085EC1492B4172BA00853208 /* ProportionController.swift in Sources */,
 				085EC1252B39208800853208 /* TYBaseView.swift in Sources */,
 				085EC1372B39767E00853208 /* iPhone13ProOutlineView.swift in Sources */,
 				085EC1332B39230A00853208 /* TYImageScrollView.swift in Sources */,
 				085EC1392B3B04F100853208 /* CardController.swift in Sources */,
 				085EC1312B39218B00853208 /* TYColorExtention.swift in Sources */,
+				085EC1472B416AC600853208 /* EditView.swift in Sources */,
 				085EC1352B3936A500853208 /* Iphone15proView.swift in Sources */,
 				085EC1272B39209B00853208 /* TYBaseViewController.swift in Sources */,
 				085EC13F2B3E75E900853208 /* TYDevice.swift in Sources */,

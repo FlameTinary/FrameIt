@@ -24,17 +24,15 @@ class CardController: TYBaseViewController {
     
     // card
     private lazy var cardView: PhoneCard = {
-        let view = PhoneCard(cardColor: .white)
+        let view = PhoneCard(scale: 0.6)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    override func addSubviews() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         view.addSubview(wallpapterImageView)
         view.addSubview(cardView)
-    }
-    
-    override func layoutConstraintWithSubViews() {
         
         // 获取iPhone 15 pro 机型尺寸
         let phoneSize = TYDevice.iPhone15Pro.size()
@@ -55,4 +53,5 @@ class CardController: TYBaseViewController {
             
         ])
     }
+    
 }

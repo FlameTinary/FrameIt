@@ -14,14 +14,15 @@ class ViewController: TYBaseViewController {
         let imageView = Iphone15proView()
         return imageView
     }()
-
-    override func addSubviews() {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         // 使用
         let iphone13ProView = iPhone13ProOutlineView(frame: CGRect(x: 0, y: 0, width: 375, height: 812))
 //        view.addSubview(imageView)
         view.addSubview(iphone13ProView)
     }
-    
+
 //    override func setupSubviews() {
 //        let imageW = 300
 //        imageView.snp.makeConstraints { make in

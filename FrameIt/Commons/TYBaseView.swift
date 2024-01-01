@@ -12,11 +12,13 @@ class TYBaseView : UIView {
     init() {
         super.init(frame: .zero)
         setupSubviews()
+        layoutConstraintWithSubViews()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSubviews()
+        layoutConstraintWithSubViews()
     }
     
     required init?(coder: NSCoder) {
@@ -25,5 +27,9 @@ class TYBaseView : UIView {
     
     func setupSubviews() {
         
+    }
+    
+    // 布局子控件
+    func layoutConstraintWithSubViews() {
     }
 }
