@@ -8,12 +8,36 @@
 import UIKit
 import SnapKit
 
+enum PhoneType {
+case whiteCard, blackCard, iphone15Pro
+}
+
 class EditView: TYBaseView {
+    
+    // 机型
+    var phoneType: PhoneType {
+        didSet {
+            if phoneView != nil {
+                phoneView?.removeFromSuperview()
+            }
+            switch phoneType {
+            case .whiteCard:
+                phoneView = PhoneCard(scale: scale)
+            case .blackCard:
+                phoneView = PhoneCard(scale: scale, cardColor: .black)
+            case .iphone15Pro:
+                phoneView = Iphone15proView()
+            }
+            addSubview(phoneView!)
+            
+            setNeedsLayout()
+        }
+    }
     
     // 缩放系数
     var scale: CGFloat {
         didSet {
-            cardView.scale = scale
+//            phoneView.scale = scale
             setNeedsLayout()
         }
     }
@@ -30,16 +54,14 @@ class EditView: TYBaseView {
     }()
     
     // 机型视图
-    private lazy var cardView: PhoneCard = {
-        let view = PhoneCard(scale: scale)
-        return view
-    }()
+    private var phoneView : TYBaseView?
     
     // 下载功能
     
-    init(proportion: TYProportion, scale: CGFloat = 0.6) {
+    init(proportion: TYProportion, scale: CGFloat = 0.6, phoneType: PhoneType = .whiteCard) {
         self.proportion = proportion
         self.scale = scale
+        self.phoneType = phoneType
         super.init()
     }
     
@@ -49,7 +71,16 @@ class EditView: TYBaseView {
     
     override func setupSubviews() {
         addSubview(bgImageView)
-        addSubview(cardView)
+        
+        switch phoneType {
+        case .whiteCard:
+            phoneView = PhoneCard(scale: scale)
+        case .blackCard:
+            phoneView = PhoneCard(scale: scale, cardColor: .black)
+        case .iphone15Pro:
+            phoneView = Iphone15proView(scale: scale)
+        }
+        addSubview(phoneView!)
         bgImageView.snp.makeConstraints{ make in
             make.edges.equalToSuperview()
         }
@@ -57,7 +88,7 @@ class EditView: TYBaseView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        cardView.snp.remakeConstraints { [weak self] make in
+        phoneView!.snp.remakeConstraints { [weak self] make in
             guard let weakself = self else { return }
             
             let phoneSize = TYDevice.iPhone15Pro.size()
@@ -68,12 +99,12 @@ class EditView: TYBaseView {
             case .oneToOne, .twoToOne, .fourToThree, .sixTeenToNine: // 横向
                 make.top.equalToSuperview().offset(20 / weakself.scale)
                 make.bottom.equalToSuperview().offset(-20 / weakself.scale)
-                make.width.equalTo(weakself.cardView.snp.height).multipliedBy(phoneScale)
+                make.width.equalTo(weakself.phoneView!.snp.height).multipliedBy(phoneScale)
                 
             case .fourToFive, .TwoToThree, .nineToSixTeen: // 纵向
                 make.left.equalToSuperview().offset(60 / weakself.scale)
                 make.right.equalToSuperview().offset(-60 / weakself.scale)
-                make.height.equalTo(weakself.cardView.snp.width).dividedBy(phoneScale)
+                make.height.equalTo(weakself.phoneView!.snp.width).dividedBy(phoneScale)
             default: break
             }
         }

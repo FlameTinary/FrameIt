@@ -39,7 +39,7 @@ class TabBarController: TYBaseViewController {
     
     // 背景视图
     private lazy var editView: EditView = {
-        let view = EditView(proportion: proportion)
+        let view = EditView(proportion: proportion, phoneType: .iphone15Pro)
 //        view.backgroundColor = .red
         return view
     }()
@@ -99,6 +99,10 @@ class TabBarController: TYBaseViewController {
         switch sender.tag {
         case 0:
             print("点击了机型")
+            let phoneTypeController = PhoneTypeController {[weak self] phoneType in
+                self?.editView.phoneType = phoneType
+            }
+            present(phoneTypeController, animated: true)
         case 1:
             print("点击了比例")
             let proportionController = ProportionController { [weak self] proportion in
