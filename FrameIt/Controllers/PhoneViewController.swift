@@ -9,8 +9,11 @@ import UIKit
 
 class PhoneViewController: TYBaseViewController {
     
+    // 选中机型的个数
+    private var modelNum: Int
+    
     // 机型改变返回闭包
-    var phoneViewDidChanged: ((TYBaseView)->())
+    var phoneViewDidChanged: (([TYBaseView])->())
     
     private lazy var btn1: UIButton = {
         let btn = UIButton(type: .system)
@@ -36,7 +39,8 @@ class PhoneViewController: TYBaseViewController {
         return btn
     }()
     
-    init(phoneViewDidChanged: @escaping (TYBaseView) -> Void) {
+    init(modelNum:Int = 1, phoneViewDidChanged: @escaping ([TYBaseView]) -> Void) {
+        self.modelNum = modelNum
         self.phoneViewDidChanged = phoneViewDidChanged
         super.init(nibName: nil, bundle: nil)
     }
@@ -69,16 +73,28 @@ class PhoneViewController: TYBaseViewController {
     }
     
     @objc func btnClick(sender: UIButton) {
+        
+        var modelArr:[TYBaseView] = []
+        
         switch sender.tag {
         case 0: // whiteCard
-            phoneViewDidChanged(PhoneCard(scale: 1.0, cardColor: .white))
+            for _ in 0...modelNum {
+                modelArr.append(PhoneCard(scale: 1.0, cardColor: .white))
+            }
         case 1: // blackCard
-            phoneViewDidChanged(PhoneCard(scale: 1.0, cardColor: .black))
+            for _ in 0...modelNum {
+                modelArr.append(PhoneCard(scale: 1.0, cardColor: .black))
+            }
         case 2: // iphone15Pro
-            phoneViewDidChanged(Iphone15proView())
+            for _ in 0...modelNum {
+                modelArr.append(Iphone15proView())
+            }
         default:
-            phoneViewDidChanged(PhoneCard(scale: 1.0, cardColor: .white))
+            for _ in 0...modelNum {
+                modelArr.append(PhoneCard(scale: 1.0, cardColor: .white))
+            }
         }
+        phoneViewDidChanged(modelArr)
         dismiss(animated: true)
     }
 }

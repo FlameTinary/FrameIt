@@ -86,8 +86,8 @@ class TabBarController: TYBaseViewController {
         switch sender.tag {
         case 0:
             print("点击了机型")
-            let phoneViewController = PhoneViewController {[weak self] phoneView in
-                self?.editView.phoneViews = [phoneView]
+            let phoneViewController = PhoneViewController {[weak self] phoneViews in
+                self?.editView.phoneViews = phoneViews
             }
             present(phoneViewController, animated: true)
         case 1:

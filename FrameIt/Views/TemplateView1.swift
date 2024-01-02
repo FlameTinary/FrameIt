@@ -41,11 +41,9 @@ class TemplateView1: TYBaseView {
     var phoneViews : [TYBaseView] {
         didSet {
             for oldView in oldValue {
-                phoneStack.removeArrangedSubview(oldView)
-//                oldView.removeFromSuperview()
+                oldView.removeFromSuperview()
             }
             for phoneView in phoneViews {
-//                addSubview(phoneView)
                 phoneStack.addArrangedSubview(phoneView)
             }
             setNeedsLayout()
