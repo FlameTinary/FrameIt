@@ -33,7 +33,7 @@ class TabBarController: TYBaseViewController {
     
     // 背景视图
     private lazy var editView: TemplateView1 = {
-        let view = TemplateView1(proportion: .oneToOne, scale: 0.6, phoneViews: [Iphone15proView()])
+        let view = TemplateView1(proportion: .oneToOne, scale: 0.6, phoneViews: [Iphone15proView(),Iphone15proView()])
         return view
     }()
     

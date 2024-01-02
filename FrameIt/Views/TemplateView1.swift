@@ -14,6 +14,8 @@ case whiteCard, blackCard, iphone15Pro
 
 class TemplateView1: TYBaseView {
     
+    private let stackSpace = 20
+    
     // 缩放系数
     var scale: Float {
         didSet {
@@ -39,14 +41,24 @@ class TemplateView1: TYBaseView {
     var phoneViews : [TYBaseView] {
         didSet {
             for oldView in oldValue {
-                oldView.removeFromSuperview()
+                phoneStack.removeArrangedSubview(oldView)
+//                oldView.removeFromSuperview()
             }
             for phoneView in phoneViews {
-                addSubview(phoneView)
+//                addSubview(phoneView)
+                phoneStack.addArrangedSubview(phoneView)
             }
             setNeedsLayout()
         }
     }
+    
+    private lazy var phoneStack: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .center
+        stack.distribution = .fillEqually
+        stack.spacing = CGFloat(stackSpace)
+        return stack
+    }()
     
     init(proportion: TYProportion, scale: Float = 1.0, phoneViews: [TYBaseView]) {
         self.proportion = proportion
@@ -61,8 +73,10 @@ class TemplateView1: TYBaseView {
     
     override func setupSubviews() {
         addSubview(bgImageView)
+        addSubview(phoneStack)
         for phoneView in phoneViews {
-            addSubview(phoneView)
+//            addSubview(phoneView)
+            phoneStack.addArrangedSubview(phoneView)
         }
         bgImageView.snp.makeConstraints{ make in
             make.edges.equalToSuperview()
@@ -71,24 +85,64 @@ class TemplateView1: TYBaseView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        for phoneView in phoneViews {
+        
+        // 计算phoneStack的长宽
+        var stackSize : CGSize = CGSizeZero
+        let phoneView = phoneViews.first as! any PhoneModelProtocol
+        // 根据机型个数计算space的长度
+        let space = stackSpace * (phoneViews.count - 1)
+        
+        if (proportion.isLandscapeOrientation()) {
+            // 横向
+            stackSize.height = height * CGFloat(scale)
             
-            phoneView.snp.remakeConstraints { [weak self] make in
-                guard let weakself = self else { return }
-                guard let viewProtocol = phoneView as? PhoneModelProtocol else {return}
-                make.center.equalToSuperview()
-                switch self?.proportion {
-                case .oneToOne, .twoToOne, .fourToThree, .sixTeenToNine: // 横向
-                    make.height.equalToSuperview().multipliedBy(weakself.scale)
-                    make.width.equalTo(phoneView.snp.height).multipliedBy(viewProtocol.whRatio)
-                case .fourToFive, .TwoToThree, .nineToSixTeen: // 纵向
-                    make.width.equalToSuperview().multipliedBy(weakself.scale)
-                    make.height.equalTo(phoneView.snp.width).dividedBy(viewProtocol.whRatio)
-                default: break
-                }
-            }
+            // 获取单个机型视图的宽
+            let phoneW = CGFloat(phoneView.whRatio) * stackSize.height
+            
+            // 根据机型个数计算所有机型的总宽
+            let phonesW = phoneW * CGFloat(phoneViews.count)
+            
+            // 计算stack的宽
+            stackSize.width = phonesW + CGFloat(space)
+        } else {
+            // 纵向
+            stackSize.width = width * CGFloat(scale)
+            
+            // 计算所有机型视图的总宽
+            let phonesW = stackSize.width - CGFloat(space)
+            
+            // 根据机型个数计算单个机型的宽
+            let phonew = phonesW / CGFloat(phoneViews.count)
+            
+            // 根据机型的宽高比，计算单个机型的高度
+            let phoneH = phonew / CGFloat(phoneView.whRatio)
+            stackSize.height = phoneH
             
         }
+        
+        phoneStack.snp.remakeConstraints { make in
+            make.center.equalToSuperview()
+            make.size.equalTo(stackSize)
+        }
+        
+//        for phoneView in phoneViews {
+//            
+//            phoneView.snp.remakeConstraints { [weak self] make in
+//                guard let weakself = self else { return }
+//                guard let viewProtocol = phoneView as? PhoneModelProtocol else {return}
+//                make.center.equalToSuperview()
+//                switch self?.proportion {
+//                case .oneToOne, .twoToOne, .fourToThree, .sixTeenToNine: // 横向
+//                    make.height.equalToSuperview().multipliedBy(weakself.scale)
+//                    make.width.equalTo(phoneView.snp.height).multipliedBy(viewProtocol.whRatio)
+//                case .fourToFive, .TwoToThree, .nineToSixTeen: // 纵向
+//                    make.width.equalToSuperview().multipliedBy(weakself.scale)
+//                    make.height.equalTo(phoneView.snp.width).dividedBy(viewProtocol.whRatio)
+//                default: break
+//                }
+//            }
+//            
+//        }
         
     }
 }
