@@ -87,7 +87,7 @@ class TabBarController: TYBaseViewController {
         case 0:
             print("点击了机型")
             let phoneViewController = PhoneViewController {[weak self] phoneView in
-                self?.editView.phoneView = phoneView as! any PhoneModelProtocol
+                self?.editView.phoneView = phoneView
             }
             present(phoneViewController, animated: true)
         case 1:
