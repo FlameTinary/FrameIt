@@ -1,5 +1,5 @@
 //
-//  PhoneTypeController.swift
+//  PhoneViewController.swift
 //  FrameIt
 //
 //  Created by Sheldon Tian on 2024/1/1.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class PhoneTypeController: TYBaseViewController {
+class PhoneViewController: TYBaseViewController {
     
     // 机型改变返回闭包
-    var phoneTypeDidChanged: ((PhoneType)->())
+    var phoneViewDidChanged: ((TYBaseView)->())
     
     private lazy var btn1: UIButton = {
         let btn = UIButton(type: .system)
@@ -36,8 +36,8 @@ class PhoneTypeController: TYBaseViewController {
         return btn
     }()
     
-    init(phoneTypeDidChanged: @escaping (PhoneType) -> Void) {
-        self.phoneTypeDidChanged = phoneTypeDidChanged
+    init(phoneViewDidChanged: @escaping (TYBaseView) -> Void) {
+        self.phoneViewDidChanged = phoneViewDidChanged
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -71,13 +71,13 @@ class PhoneTypeController: TYBaseViewController {
     @objc func btnClick(sender: UIButton) {
         switch sender.tag {
         case 0: // whiteCard
-            phoneTypeDidChanged(.whiteCard)
+            phoneViewDidChanged(PhoneCard(scale: 1.0, cardColor: .white))
         case 1: // blackCard
-            phoneTypeDidChanged(.blackCard)
+            phoneViewDidChanged(PhoneCard(scale: 1.0, cardColor: .black))
         case 2: // iphone15Pro
-            phoneTypeDidChanged(.iphone15Pro)
+            phoneViewDidChanged(Iphone15proView())
         default:
-            phoneTypeDidChanged(.whiteCard)
+            phoneViewDidChanged(PhoneCard(scale: 1.0, cardColor: .white))
         }
         dismiss(animated: true)
     }

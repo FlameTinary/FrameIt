@@ -8,16 +8,24 @@
 import UIKit
 import SnapKit
 
-class Iphone15proView: TYBaseView {
-    // 缩放系数
-    var scale: CGFloat {
+class Iphone15proView: TYBaseView, PhoneModelProtocol {
+    var whRatio: Float {
+        get {
+            return Float(borderImage.size.width / borderImage.size.height)
+        }
+    }
+    
+    var phoneScale: Float{
         didSet {
-            imageScrollView.cornerRadio = 20.0 * scale
+            imageScrollView.cornerRadio = 20.0 - CGFloat(phoneScale)
         }
     }
     
     // 壳图片
-    private var borderImage = UIImage(named: "iPhone_15_pro_Titanium_black")
+    var borderImage: UIImage = UIImage(named: "iPhone_15_pro_Titanium_black")!
+    
+//    private var borderImage = UIImage(named: "iPhone_15_pro_Titanium_black")
+    
     private lazy var borderImageView: UIImageView = {
         let imageView = UIImageView(image: borderImage)
         return imageView
@@ -26,11 +34,12 @@ class Iphone15proView: TYBaseView {
     private lazy var imageScrollView: TYImageScrollView = {
         let imageScrollView = TYImageScrollView(image: UIImage(named: "wallpaper_1"), cornerRadio: 20.0)
 //        imageScrollView.isHidden = true
+        imageScrollView.layer.masksToBounds = true
         return imageScrollView
     }()
     
-    init(scale: CGFloat = 1.0) {
-        self.scale = scale
+    init(scale: Float = 1.0) {
+        self.phoneScale = scale
         super.init()
     }
     
@@ -46,8 +55,8 @@ class Iphone15proView: TYBaseView {
         imageScrollView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.89)
-            make.height.equalToSuperview().multipliedBy(0.92)
+            make.width.equalToSuperview().multipliedBy(0.95)
+            make.height.equalToSuperview().multipliedBy(0.976)
         }
         
         borderImageView.snp.makeConstraints { make in

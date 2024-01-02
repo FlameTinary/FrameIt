@@ -13,13 +13,19 @@ enum CardColor {
     case white, black
 }
 
-class PhoneCard: TYBaseView {
+class PhoneCard: TYBaseView, PhoneModelProtocol {
+    var whRatio: Float {
+        get {
+            let phoneSize = TYDevice.iPhone15Pro.size()
+            return Float(phoneSize.width / phoneSize.height)
+        }
+    }
+    
+    
+    var phoneScale: Float
     
     // 卡片颜色
     var cardColor: CardColor
-    
-    // 缩放系数
-    var scale: CGFloat
     
     // 时间
     private lazy var leftLbl: UILabel = {
@@ -93,9 +99,9 @@ class PhoneCard: TYBaseView {
         return view
     }()
     
-    init(scale: CGFloat, cardColor: CardColor = .white) {
+    init(scale: Float, cardColor: CardColor = .white) {
         self.cardColor = cardColor
-        self.scale = scale
+        self.phoneScale = scale
         super.init()
     }
     

@@ -9,13 +9,7 @@ import UIKit
 import SnapKit
 
 class TabBarController: TYBaseViewController {
-    // 背景视图比例
-    private var proportion: TYProportion = .oneToOne {
-        didSet {
-            editView.proportion = proportion
-            updateViewConstraints()
-        }
-    }
+    
     // tabbar数据
     private let tabbarInfo = ["机型", "比例", "模板"]
     
@@ -38,26 +32,19 @@ class TabBarController: TYBaseViewController {
     }()
     
     // 背景视图
-    private lazy var editView: EditView = {
-        let view = EditView(proportion: proportion, phoneType: .iphone15Pro)
-//        view.backgroundColor = .red
+    private lazy var editView: TemplateView1 = {
+        let view = TemplateView1(proportion: .oneToOne, scale: 0.6, phoneView: Iphone15proView())
         return view
     }()
     
     private lazy var slider: UISlider = {
         let view = UISlider()
-        view.minimumValue = 0.2
+        view.minimumValue = 0.4
+        view.maximumValue = 0.6
         view.value = Float(editView.scale)
         view.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)
         return view
     }()
-    
-    // 设备视图
-//    private lazy var cardView: PhoneCard = {
-//        let view = PhoneCard(cardColor: .white)
-//        return view
-//    }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,14 +86,15 @@ class TabBarController: TYBaseViewController {
         switch sender.tag {
         case 0:
             print("点击了机型")
-            let phoneTypeController = PhoneTypeController {[weak self] phoneType in
-                self?.editView.phoneType = phoneType
+            let phoneViewController = PhoneViewController {[weak self] phoneView in
+                self?.editView.phoneView = phoneView as! any PhoneModelProtocol
             }
-            present(phoneTypeController, animated: true)
+            present(phoneViewController, animated: true)
         case 1:
             print("点击了比例")
             let proportionController = ProportionController { [weak self] proportion in
-                self?.proportion = proportion
+                self?.editView.proportion = proportion
+                self?.updateViewConstraints()
             }
             present(proportionController, animated: true)
         case 2:
@@ -118,7 +106,7 @@ class TabBarController: TYBaseViewController {
     
     @objc func sliderValueChanged(sender: UISlider) {
 //        print("\(sender.value)")
-        editView.scale = CGFloat(sender.value)
+        editView.scale = sender.value
     }
     
     override func updateViewConstraints() {
@@ -128,16 +116,16 @@ class TabBarController: TYBaseViewController {
         editView.snp.remakeConstraints { [weak self] make in
             guard let weakself = self else { return }
             
-            switch self?.proportion {
+            switch self?.editView.proportion {
             case .oneToOne, .twoToOne, .fourToThree, .sixTeenToNine:
                 make.center.equalToSuperview()
                 make.width.equalToSuperview()
-                make.height.equalTo(weakself.editView.snp.width).dividedBy(weakself.proportion.toRadio())
+                make.height.equalTo(weakself.editView.snp.width).dividedBy(weakself.editView.proportion.toRadio())
             case .fourToFive, .TwoToThree, .nineToSixTeen:
                 make.centerX.equalToSuperview()
                 make.top.equalToSuperview().offset(100)
                 make.bottom.equalTo(weakself.tabbarView.snp.top).offset(-40)
-                make.width.equalTo(weakself.editView.snp.height).multipliedBy(weakself.proportion.toRadio())
+                make.width.equalTo(weakself.editView.snp.height).multipliedBy(weakself.editView.proportion.toRadio())
             default: break
             }
         }
