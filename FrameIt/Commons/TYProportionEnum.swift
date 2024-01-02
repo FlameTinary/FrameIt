@@ -60,4 +60,14 @@ case oneToOne = 0, fourToFive, twoToOne, fourToThree, TwoToThree, nineToSixTeen,
         let radio = self.toRadio()
         return height * radio
     }
+    
+    // 判断是否横向
+    func isLandscapeOrientation() -> Bool {
+        switch self {
+        case .oneToOne, .twoToOne, .fourToThree, .sixTeenToNine: // 横向
+            return true
+        case .fourToFive, .TwoToThree, .nineToSixTeen: // 纵向
+            return false
+        }
+    }
 }
