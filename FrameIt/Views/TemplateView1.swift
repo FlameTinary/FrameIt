@@ -72,8 +72,19 @@ class TemplateView1: TYBaseView {
     override func setupSubviews() {
         addSubview(bgImageView)
         addSubview(phoneStack)
-        for phoneView in phoneViews {
+        for (index, phoneView) in phoneViews.enumerated() {
 //            addSubview(phoneView)
+            if (index == 1) {
+                // 将视图旋转 30 度
+                let rotationAngle = CGFloat(10.0 * .pi / 180.0)  // 将角度转换为弧度
+                phoneView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+            } else {
+                // 将视图旋转 30 度
+                let rotationAngle = CGFloat(-10.0 * .pi / 180.0)  // 将角度转换为弧度
+                phoneView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+            }
+            
+            
             phoneStack.addArrangedSubview(phoneView)
         }
         bgImageView.snp.makeConstraints{ make in
