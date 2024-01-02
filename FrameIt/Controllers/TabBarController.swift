@@ -33,7 +33,7 @@ class TabBarController: TYBaseViewController {
     
     // 背景视图
     private lazy var editView: TemplateView1 = {
-        let view = TemplateView1(proportion: .oneToOne, scale: 0.6, phoneView: Iphone15proView())
+        let view = TemplateView1(proportion: .oneToOne, scale: 0.6, phoneViews: [Iphone15proView()])
         return view
     }()
     
@@ -87,7 +87,7 @@ class TabBarController: TYBaseViewController {
         case 0:
             print("点击了机型")
             let phoneViewController = PhoneViewController {[weak self] phoneView in
-                self?.editView.phoneView = phoneView
+                self?.editView.phoneViews = [phoneView]
             }
             present(phoneViewController, animated: true)
         case 1:

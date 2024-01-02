@@ -17,9 +17,9 @@ class TemplateView1: TYBaseView {
     // 缩放系数
     var scale: Float {
         didSet {
-            if let view = phoneView as? PhoneModelProtocol {
-                view.phoneScale = scale
-            }
+//            if let view = phoneView as? PhoneModelProtocol {
+//                view.phoneScale = scale
+//            }
             setNeedsLayout()
         }
     }
@@ -36,18 +36,22 @@ class TemplateView1: TYBaseView {
     }()
     
     // 机型视图
-    var phoneView : TYBaseView {
+    var phoneViews : [TYBaseView] {
         didSet {
-            oldValue.removeFromSuperview()
-            addSubview(phoneView)
+            for oldView in oldValue {
+                oldView.removeFromSuperview()
+            }
+            for phoneView in phoneViews {
+                addSubview(phoneView)
+            }
             setNeedsLayout()
         }
     }
     
-    init(proportion: TYProportion, scale: Float = 1.0, phoneView: TYBaseView) {
+    init(proportion: TYProportion, scale: Float = 1.0, phoneViews: [TYBaseView]) {
         self.proportion = proportion
         self.scale = scale
-        self.phoneView = phoneView
+        self.phoneViews = phoneViews
         super.init()
     }
     
@@ -57,7 +61,9 @@ class TemplateView1: TYBaseView {
     
     override func setupSubviews() {
         addSubview(bgImageView)
-        addSubview(phoneView)
+        for phoneView in phoneViews {
+            addSubview(phoneView)
+        }
         bgImageView.snp.makeConstraints{ make in
             make.edges.equalToSuperview()
         }
@@ -65,19 +71,24 @@ class TemplateView1: TYBaseView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        phoneView.snp.remakeConstraints { [weak self] make in
-            guard let weakself = self else { return }
-            guard let viewProtocol = weakself.phoneView as? PhoneModelProtocol else {return}
-            make.center.equalToSuperview()
-            switch self?.proportion {
-            case .oneToOne, .twoToOne, .fourToThree, .sixTeenToNine: // 横向
-                make.height.equalToSuperview().multipliedBy(weakself.scale)
-                make.width.equalTo(weakself.phoneView.snp.height).multipliedBy(viewProtocol.whRatio)
-            case .fourToFive, .TwoToThree, .nineToSixTeen: // 纵向
-                make.width.equalToSuperview().multipliedBy(weakself.scale)
-                make.height.equalTo(weakself.phoneView.snp.width).dividedBy(viewProtocol.whRatio)
-            default: break
+        for phoneView in phoneViews {
+            
+            phoneView.snp.remakeConstraints { [weak self] make in
+                guard let weakself = self else { return }
+                guard let viewProtocol = phoneView as? PhoneModelProtocol else {return}
+                make.center.equalToSuperview()
+                switch self?.proportion {
+                case .oneToOne, .twoToOne, .fourToThree, .sixTeenToNine: // 横向
+                    make.height.equalToSuperview().multipliedBy(weakself.scale)
+                    make.width.equalTo(phoneView.snp.height).multipliedBy(viewProtocol.whRatio)
+                case .fourToFive, .TwoToThree, .nineToSixTeen: // 纵向
+                    make.width.equalToSuperview().multipliedBy(weakself.scale)
+                    make.height.equalTo(phoneView.snp.width).dividedBy(viewProtocol.whRatio)
+                default: break
+                }
             }
+            
         }
+        
     }
 }
