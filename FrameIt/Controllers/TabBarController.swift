@@ -105,6 +105,7 @@ class TabBarController: TYBaseViewController {
             print("点击了机型")
             let phoneViewController = PhoneViewController {[weak self] phoneViews in
                 self?.editView.phoneViews = phoneViews
+                self?.editView.rotation = self?.rotationSlider.value ?? 0.5
             }
             present(phoneViewController, animated: true)
         case 1:
