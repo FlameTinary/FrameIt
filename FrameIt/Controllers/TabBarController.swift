@@ -37,12 +37,23 @@ class TabBarController: TYBaseViewController {
         return view
     }()
     
-    private lazy var slider: UISlider = {
+    // 缩放滑块
+    private lazy var scaleSlider: UISlider = {
         let view = UISlider()
         view.minimumValue = 0.4
         view.maximumValue = 0.6
         view.value = Float(editView.scale)
-        view.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)
+        view.addTarget(self, action: #selector(scaleSliderValueChanged), for: .valueChanged)
+        return view
+    }()
+    
+    // 旋转滑块
+    private lazy var rotationSlider: UISlider = {
+        let view = UISlider()
+        view.minimumValue = -1.0
+        view.maximumValue = 1.0
+        view.value = Float(editView.rotation)
+        view.addTarget(self, action: #selector(rotationSliderValueChanged), for: .valueChanged)
         return view
     }()
     
@@ -51,7 +62,8 @@ class TabBarController: TYBaseViewController {
         view.addSubview(tabbarView)
         tabbarView.addSubview(tabbarStackView)
         view.addSubview(editView)
-        view.addSubview(slider)
+        view.addSubview(scaleSlider)
+        view.addSubview(rotationSlider)
         
         // 添加tabbar按钮
         for (index, tabbar) in tabbarInfo.enumerated() {
@@ -74,8 +86,13 @@ class TabBarController: TYBaseViewController {
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
         
-        slider.snp.makeConstraints { make in
+        scaleSlider.snp.makeConstraints { make in
             make.bottom.equalTo(tabbarView.snp.top).offset(-10)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(30)
+        }
+        rotationSlider.snp.makeConstraints { make in
+            make.bottom.equalTo(scaleSlider.snp.top).offset(-10)
             make.left.right.equalToSuperview()
             make.height.equalTo(30)
         }
@@ -104,9 +121,16 @@ class TabBarController: TYBaseViewController {
         }
     }
     
-    @objc func sliderValueChanged(sender: UISlider) {
+    // 缩放滑块变化
+    @objc func scaleSliderValueChanged(sender: UISlider) {
 //        print("\(sender.value)")
         editView.scale = sender.value
+    }
+    
+    // 旋转滑块变化
+    @objc func rotationSliderValueChanged(sender: UISlider) {
+//        print("rotationSlider: \(sender.value)")
+        editView.rotation = sender.value
     }
     
     override func updateViewConstraints() {

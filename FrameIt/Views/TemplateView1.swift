@@ -14,7 +14,8 @@ case whiteCard, blackCard, iphone15Pro
 
 class TemplateView1: TYBaseView {
     
-    private let stackSpace = 20
+    private let stackSpace = 10
+    private let isSymmetry = false
     
     // 缩放系数
     var scale: Float {
@@ -23,6 +24,13 @@ class TemplateView1: TYBaseView {
 //                view.phoneScale = scale
 //            }
             setNeedsLayout()
+        }
+    }
+    
+    // 旋转系数
+    var rotation: Float {
+        didSet {
+            updateZRotation()
         }
     }
     
@@ -58,9 +66,10 @@ class TemplateView1: TYBaseView {
         return stack
     }()
     
-    init(proportion: TYProportion, scale: Float = 1.0, phoneViews: [TYBaseView]) {
+    init(proportion: TYProportion, scale: Float = 1.0, rotation: Float = 0, phoneViews: [TYBaseView]) {
         self.proportion = proportion
         self.scale = scale
+        self.rotation = rotation
         self.phoneViews = phoneViews
         super.init()
     }
@@ -72,21 +81,10 @@ class TemplateView1: TYBaseView {
     override func setupSubviews() {
         addSubview(bgImageView)
         addSubview(phoneStack)
-        for (index, phoneView) in phoneViews.enumerated() {
-//            addSubview(phoneView)
-            if (index == 1) {
-                // 将视图旋转 30 度
-                let rotationAngle = CGFloat(10.0 * .pi / 180.0)  // 将角度转换为弧度
-                phoneView.transform = CGAffineTransform(rotationAngle: rotationAngle)
-            } else {
-                // 将视图旋转 30 度
-                let rotationAngle = CGFloat(-10.0 * .pi / 180.0)  // 将角度转换为弧度
-                phoneView.transform = CGAffineTransform(rotationAngle: rotationAngle)
-            }
-            
-            
+        for phoneView in phoneViews {
             phoneStack.addArrangedSubview(phoneView)
         }
+        updateZRotation()
         bgImageView.snp.makeConstraints{ make in
             make.edges.equalToSuperview()
         }
@@ -153,5 +151,20 @@ class TemplateView1: TYBaseView {
 //            
 //        }
         
+    }
+    
+    private func updateZRotation() {
+        
+        // 计算弧度
+        let radian : CGFloat = CGFloat(10.0 * rotation)
+        let rotationAngle = CGFloat(radian * .pi / 180.0)  // 将角度转换为弧度
+        
+        for (index, phoneView) in phoneViews.enumerated() {
+            if (isSymmetry) {
+                phoneView.transform = CGAffineTransform(rotationAngle: index % 2 == 0 ? -rotationAngle : rotationAngle)
+            } else {
+                phoneView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+            }
+        }
     }
 }
