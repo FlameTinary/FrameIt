@@ -110,7 +110,7 @@ class TabBarController: TYBaseViewController {
             present(phoneViewController, animated: true)
         case 1:
             print("点击了比例")
-            let proportionController = ProportionController { [weak self] proportion in
+            let proportionController = ProportionController(defaultProportion: self.editView.proportion) {[weak self] proportion in
                 self?.editView.proportion = proportion
                 self?.updateViewConstraints()
             }
